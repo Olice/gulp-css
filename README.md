@@ -1,6 +1,6 @@
 # gulp-css
 
-## Example:
+## Examples:
 
 ```js
 
@@ -21,5 +21,18 @@ const config = {
   }
 };
 
+// Register gulp-css task
 require('gulp-css')(config);
+
+gulp.tasks('default', ['gulp-css']);
+```
+
+When using browserSync, pass the browserSync object to config.browserSync"
+
+```js
+
+const browserSync = require('browserSync').create();
+
+config.browserSync = browserSync;
+
 ```
