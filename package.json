@@ -1,6 +1,6 @@
 {
   "name": "@olice/gulp-css",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Olice gulp task for compiling SCSS into CSS",
   "main": "dist/gulp-css.js",
   "dependencies": {
