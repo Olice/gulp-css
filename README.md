@@ -24,7 +24,7 @@ const config = {
 // Register gulp-css task
 require('gulp-css')(config);
 
-gulp.tasks('default', ['gulp-css']);
+gulp.task('default', ['gulp-css']);
 ```
 
 When using browserSync, pass the browserSync object to config.browserSync"

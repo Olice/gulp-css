@@ -3,39 +3,44 @@ const gulp = require('gulp');
 const autoprefixer = require('gulp-autoprefixer');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
-const gulpif = require('gulp-if');
-
-/**
- * Default parameters passed to task if none supplied
- * @type {Object}
- */
-const config = {
-  sassOptions: {
-    errLogToConsole: true,
-    outputStyle: 'compressed'
-  },
-  source: './src',
-  output: './dist/css',
-  browserSync: null,
-  autoprefixer: {
-    browsers: ['> 1%'] // version of browsers
-  }
-};
+const through2 = require('through2');
 
 /**
  * Exported task
  * @exports
- * @param  {Object} [config=config] Config object
+ * @param  {Object} [options] optional parameters to replace default config
  */
-module.exports = function(config = config) {
+module.exports = function(options) {
+  /**
+   * Default parameters passed to task if none supplied
+   * @type {Object}
+   */
+  const config = Object.assign({}, {
+    sassOptions: {
+      errLogToConsole: true,
+      outputStyle: 'compressed'
+    },
+    source: './src',
+    output: './dist',
+    browserSync: false,
+    autoprefixer: {
+      browsers: ['> 1%'] // version of browsers
+    }
+  }, options);
+
+  const sync = config.browserSync ? config.browserSync.stream() : through2.obj(function(file, enc, cb) {
+    this.push(file);
+    cb(null);
+  });
+
   gulp.task('css', function() {
     return gulp
-      .src(config.source + '/sass/*.scss')
+      .src(`${config.source}/**/*.scss`)
       .pipe(sourcemaps.init())
       .pipe(sass(config.sassOptions).on('error', sass.logError))
       .pipe(autoprefixer(config.autoprefixer))
       .pipe(sourcemaps.write())
-      .pipe(gulp.dest(config.output + '/css'))
-      .pipe(gulpif(config.browserSync, config.browserSync.stream()));
+      .pipe(gulp.dest(`${config.output}/css`))
+      .pipe(sync);
   });
 };
