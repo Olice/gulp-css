@@ -10,7 +10,7 @@ const through2 = require('through2');
  * @exports
  * @param  {Object} [options] optional parameters to replace default config
  */
-module.exports = function(options) {
+module.exports = (options) => {
   /**
    * Default parameters passed to task if none supplied
    * @type {Object}
@@ -33,7 +33,7 @@ module.exports = function(options) {
     cb(null);
   });
 
-  gulp.task('css', function() {
+  gulp.task('css', () => {
     return gulp
       .src(`${config.source}/**/*.scss`)
       .pipe(sourcemaps.init())

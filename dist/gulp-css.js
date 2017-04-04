@@ -4,14 +4,13 @@ const autoprefixer = require('gulp-autoprefixer');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 const through2 = require('through2');
-const debug = require('gulp-debug');
 
 /**
  * Exported task
  * @exports
  * @param  {Object} [options] optional parameters to replace default config
  */
-module.exports = function(options) {
+module.exports = (options) => {
   /**
    * Default parameters passed to task if none supplied
    * @type {Object}
@@ -34,10 +33,9 @@ module.exports = function(options) {
     cb(null);
   });
 
-  gulp.task('css', function() {
+  gulp.task('css', () => {
     return gulp
       .src(`${config.source}/**/*.scss`)
-      .pipe(debug())
       .pipe(sourcemaps.init())
       .pipe(sass(config.sassOptions).on('error', sass.logError))
       .pipe(autoprefixer(config.autoprefixer))
